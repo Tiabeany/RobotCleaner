@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RobotCleaner;
+using System;
 using System.Collections.Generic;
 
 namespace RobotCleanerTest
@@ -16,6 +17,8 @@ namespace RobotCleanerTest
 
         private static List<string> _exampleInputAllLines = new List<string>();
 
+        private static Robot _robot = new Robot();
+
         [ClassInitialize]
         public static void TestFixtureSetup(TestContext context)
         {
@@ -28,10 +31,23 @@ namespace RobotCleanerTest
         [TestMethod]
         public void Should_Return_ExampleOutput_When_Receive_ExampleInput()
         {
-            var robot = new Robot();
-            var result = robot.Clean(_exampleInputAllLines);
+            var result = _robot.Clean(_exampleInputAllLines);
 
             Assert.AreEqual(result, EXAMPLE_OUTPUT);
+        }
+
+        [TestMethod]
+        public void Should_Return_Six_When_Receive_ExampleInputWithOneExtraCommand()
+        {
+            var inputAllLines = new List<string>();
+            inputAllLines.Add("3");
+            inputAllLines.Add(EXAMPLE_INPUT_LINE_TWO);
+            inputAllLines.Add(EXAMPLE_INPUT_LINE_THREE);
+            inputAllLines.Add(EXAMPLE_INPUT_LINE_FOUR);
+
+            var result = _robot.Clean(inputAllLines);
+
+            Assert.AreEqual(result, "=> Cleaned: 6");
         }
     }
 }
