@@ -1,7 +1,0 @@
-D:\Source\RobotCleaner\RobotCleaner\bin\Debug\RobotCleaner.exe.config
-D:\Source\RobotCleaner\RobotCleaner\bin\Debug\RobotCleaner.exe
-D:\Source\RobotCleaner\RobotCleaner\bin\Debug\RobotCleaner.pdb
-D:\Source\RobotCleaner\RobotCleaner\obj\Debug\RobotCleaner.csprojAssemblyReference.cache
-D:\Source\RobotCleaner\RobotCleaner\obj\Debug\RobotCleaner.csproj.CoreCompileInputs.cache
-D:\Source\RobotCleaner\RobotCleaner\obj\Debug\RobotCleaner.exe
-D:\Source\RobotCleaner\RobotCleaner\obj\Debug\RobotCleaner.pdb
