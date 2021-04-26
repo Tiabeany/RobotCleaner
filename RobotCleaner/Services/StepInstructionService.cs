@@ -1,10 +1,15 @@
 ﻿using RobotCleaner.Domain;
+using RobotCleaner.Services.Interfaces;
 using System.Collections.Generic;
 
 namespace RobotCleaner.Services
 {
-    public class StepInstructionService 
+    public class StepInstructionService : IStepInstructionService
     {
+        public StepInstructionService()
+        {
+        }
+
         public List<StepInstruction> GetStepsInstructionListFromStepInputs(string stepInputOne, string stepInputTwo)
         {
             var response = new List<StepInstruction>();
