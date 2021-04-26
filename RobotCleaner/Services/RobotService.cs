@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RobotCleaner.Domain;
 using RobotCleaner.Services.Interfaces;
 
@@ -16,6 +17,11 @@ namespace RobotCleaner.Services
             _cleanedUniquePlaces = new List<Coordinate>();
         }
 
+        public string GetCleanedUniquePlaces()
+        {
+            return $"=> Cleaned: {_cleanedUniquePlaces.Count}";
+        }
+
         public void RunRobotCommands(List<string> inputs)
         {
             SetRobot(inputs);
@@ -23,14 +29,14 @@ namespace RobotCleaner.Services
             // The robot cleans the vertex it starts
             _cleanedUniquePlaces.Add(Robot.StartingPoint);
 
-            for (int i = 0; i < Robot.CommandsToRun; i++)
+            for (int runningCommandIndex = 0; runningCommandIndex < Robot.CommandsToRun; runningCommandIndex++)
             {
                 // If the current command index is even then we should get the first instruction (index 0) otherwise get the second instruction (index 1)
-                var stepInstructionToRunIndex = i % 2 == 0 ? 0 : 1;
+                var stepInstructionToRunIndex = runningCommandIndex % 2 == 0 ? 0 : 1;
                 var stepInstructionToRun = Robot.StepInstructions[stepInstructionToRunIndex];
 
-                bool isHorizontalCommand;
-                bool isPositiveCommand;
+                var isHorizontalCommand = false;
+                var isPositiveCommand = false;
                 switch (stepInstructionToRun.Direction)
                 {
                     case "E":
@@ -50,12 +56,76 @@ namespace RobotCleaner.Services
                         isPositiveCommand = true;
                         break;
                 }
+
+                if (isHorizontalCommand)
+                {
+                    if (isPositiveCommand)
+                    {
+                        for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                        {
+                            if (isNextPositionValid(Robot.CurrentPosition.X + 1))
+                            {
+                                Robot.CurrentPosition.X++;
+                                AddPositionIntoUniqueCleanPlacesIfUnique();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                        {
+                            if (isNextPositionValid(Robot.CurrentPosition.X - 1))
+                            {
+                                Robot.CurrentPosition.X--;
+                                AddPositionIntoUniqueCleanPlacesIfUnique();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (isPositiveCommand)
+                    {
+                        if (isNextPositionValid(Robot.CurrentPosition.Y + 1))
+                        {
+                            for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                            {
+                                Robot.CurrentPosition.Y++;
+                                AddPositionIntoUniqueCleanPlacesIfUnique();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (isNextPositionValid(Robot.CurrentPosition.Y - 1))
+                        {
+                            for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                            {
+                                Robot.CurrentPosition.Y--;
+                                AddPositionIntoUniqueCleanPlacesIfUnique();
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        public string GetCleanedUniquePlaces()
+        private bool isNextPositionValid(int nextPosition)
         {
-            return $"=> Cleaned: {_cleanedUniquePlaces.Count}";
+            return nextPosition <= 100.000 || nextPosition >= -100.000;
+        }
+
+        private void AddPositionIntoUniqueCleanPlacesIfUnique()
+        {
+            if (!_cleanedUniquePlaces.Contains(Robot.CurrentPosition))
+            {
+                // Adding a new Coordinate to make sure we are not adding just a reference to the Robot's current position
+                _cleanedUniquePlaces.Add(new Coordinate
+                {
+                    X = Robot.CurrentPosition.X,
+                    Y = Robot.CurrentPosition.Y
+                });
+            }
         }
 
         private void SetRobot(List<string> inputs)
@@ -74,6 +144,7 @@ namespace RobotCleaner.Services
             Robot = new Robot
             {
                 CommandsToRun = commandInstructions,
+                CurrentPosition = startingPoint,
                 StartingPoint = startingPoint,
                 StepInstructions = stepsInstructions
             };

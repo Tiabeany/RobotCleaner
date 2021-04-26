@@ -5,7 +5,7 @@ namespace RobotCleaner.Services.Interfaces
 {
     public interface IRobotService
     {
-        void RunRobotCommands(List<string> inputs);
         string GetCleanedUniquePlaces();
+        void RunRobotCommands(List<string> inputs);
     }
 }
