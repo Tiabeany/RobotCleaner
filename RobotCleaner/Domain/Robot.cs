@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace RobotCleaner
+namespace RobotCleaner.Domain
 {
     public class Robot
     {
         public string Clean(List<string> input)
         {
-            var commandInstructions = input[0];            
+            var commandInstructions = input[0];
             var startingPointInstructions = input[1];
             var horizontalInstructions = input[2];
             var verticalInstructions = input[3];
