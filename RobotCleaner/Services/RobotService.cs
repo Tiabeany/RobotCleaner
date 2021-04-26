@@ -27,7 +27,7 @@ namespace RobotCleaner.Services
             SetRobot(inputs);
 
             // The robot cleans the vertex it starts
-            _cleanedUniquePlaces.Add(Robot.StartingPoint);
+            AddPositionIntoUniqueCleanPlacesIfUnique();
 
             for (int runningCommandIndex = 0; runningCommandIndex < Robot.CommandsToRun; runningCommandIndex++)
             {
