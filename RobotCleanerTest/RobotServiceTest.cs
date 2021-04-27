@@ -11,10 +11,9 @@ namespace RobotCleanerTest
     [TestClass]
     public class RobotServiceTest
     {
-        private const string EXAMPLE_INPUT_LINE_ONE_COMMAND = "2";
-        private const string EXAMPLE_INPUT_LINE_TWO_STARTING_POINT = "10 22";
-        private const string EXAMPLE_INPUT_LINE_THREE_DIRECTIONAL_STEPS = "E 2";
-        private const string EXAMPLE_INPUT_LINE_FOUR_DIRECTIONAL_STEPS = "N 1";
+        private const string EXAMPLE_INPUT_STARTING_POINT = "10 22";
+        private const string EXAMPLE_INPUT_DIRECTIONAL_STEPS_ONE = "E 2";
+        private const string EXAMPLE_INPUT_DIRECTIONAL_STEPS_TWO = "N 1";
 
         private const string EXAMPLE_OUTPUT = "=> Cleaned: 4";
 
@@ -24,10 +23,9 @@ namespace RobotCleanerTest
         [ClassInitialize]
         public static void TestFixtureSetup(TestContext context)
         {
-            _exampleInputAllLines.Add(EXAMPLE_INPUT_LINE_ONE_COMMAND);
-            _exampleInputAllLines.Add(EXAMPLE_INPUT_LINE_TWO_STARTING_POINT);
-            _exampleInputAllLines.Add(EXAMPLE_INPUT_LINE_THREE_DIRECTIONAL_STEPS);
-            _exampleInputAllLines.Add(EXAMPLE_INPUT_LINE_FOUR_DIRECTIONAL_STEPS);
+            _exampleInputAllLines.Add(EXAMPLE_INPUT_STARTING_POINT);
+            _exampleInputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_ONE);
+            _exampleInputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_TWO);
 
             var stepInstructionService = new StepInstructionService();
             _robotService = new RobotService(stepInstructionService);
@@ -46,10 +44,9 @@ namespace RobotCleanerTest
         public void Should_Return_ExampleOutput_When_Receive_ExampleInputWithRoomyStartpoint()
         {
             var inputAllLines = new List<string>();
-            inputAllLines.Add(EXAMPLE_INPUT_LINE_ONE_COMMAND);
             inputAllLines.Add("880 58490");
-            inputAllLines.Add(EXAMPLE_INPUT_LINE_THREE_DIRECTIONAL_STEPS);
-            inputAllLines.Add(EXAMPLE_INPUT_LINE_FOUR_DIRECTIONAL_STEPS);
+            inputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_ONE);
+            inputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_TWO);
 
             _robotService.RunRobotCommands(inputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
@@ -61,10 +58,10 @@ namespace RobotCleanerTest
         public void Should_Return_Six_When_Receive_ExampleInputWithOneExtraCommand()
         {
             var inputAllLines = new List<string>();
-            inputAllLines.Add("3");
-            inputAllLines.Add(EXAMPLE_INPUT_LINE_TWO_STARTING_POINT);
-            inputAllLines.Add(EXAMPLE_INPUT_LINE_THREE_DIRECTIONAL_STEPS);
-            inputAllLines.Add(EXAMPLE_INPUT_LINE_FOUR_DIRECTIONAL_STEPS);
+            inputAllLines.Add(EXAMPLE_INPUT_STARTING_POINT);
+            inputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_ONE);
+            inputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_TWO);
+            inputAllLines.Add("E 2");
 
             _robotService.RunRobotCommands(inputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
@@ -73,18 +70,26 @@ namespace RobotCleanerTest
         }
 
         [TestMethod]
-        public void Should_Return_Zero_When_Receive_StuckedOnBorderInstructions()
-        {
-        }
-
-        [TestMethod]
         public void Should_Return_Zero_When_Receive_ZeroCommands()
         {
+            var inputAllLines = new List<string>();
+            inputAllLines.Add(EXAMPLE_INPUT_STARTING_POINT);
+            _robotService.RunRobotCommands(inputAllLines);
+            var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
+
+            Assert.AreEqual(cleanedUniquePlaces, "=> Cleaned: 0");
         }
 
         [TestMethod]
-        public void Should_Return_Zero_When_Receive_ZeroSteps()
+        public void Should_Return_One_When_Receive_ZeroSteps()
         {
+            var inputAllLines = new List<string>();
+            inputAllLines.Add(EXAMPLE_INPUT_STARTING_POINT);
+            inputAllLines.Add("E 0");
+            _robotService.RunRobotCommands(inputAllLines);
+            var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
+
+            Assert.AreEqual(cleanedUniquePlaces, "=> Cleaned: 1");
         }
     }
 }
