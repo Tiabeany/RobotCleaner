@@ -37,7 +37,7 @@ namespace RobotCleanerTest
             _robotService.RunRobotCommands(_exampleInputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
 
-            Assert.AreEqual(cleanedUniquePlaces, EXAMPLE_OUTPUT);
+            Assert.AreEqual(EXAMPLE_OUTPUT, cleanedUniquePlaces);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace RobotCleanerTest
             _robotService.RunRobotCommands(inputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
 
-            Assert.AreEqual(cleanedUniquePlaces, EXAMPLE_OUTPUT);
+            Assert.AreEqual(EXAMPLE_OUTPUT, cleanedUniquePlaces);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace RobotCleanerTest
             _robotService.RunRobotCommands(inputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
 
-            Assert.AreEqual(cleanedUniquePlaces, "=> Cleaned: 6");
+            Assert.AreEqual("=> Cleaned: 6", cleanedUniquePlaces);
         }
 
         [TestMethod]
@@ -77,7 +77,7 @@ namespace RobotCleanerTest
             _robotService.RunRobotCommands(inputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
 
-            Assert.AreEqual(cleanedUniquePlaces, "=> Cleaned: 0");
+            Assert.AreEqual("=> Cleaned: 0", cleanedUniquePlaces);
         }
 
         [TestMethod]
@@ -89,7 +89,24 @@ namespace RobotCleanerTest
             _robotService.RunRobotCommands(inputAllLines);
             var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
 
-            Assert.AreEqual(cleanedUniquePlaces, "=> Cleaned: 1");
+            Assert.AreEqual("=> Cleaned: 1", cleanedUniquePlaces);
+        }
+
+        [TestMethod]
+        public void Should_Return_10001_When_Receive_10000OneStepCommandsToTheSameDirection()
+        {
+            var inputAllLines = new List<string>();
+            inputAllLines.Add("0 0");
+
+            for (int i = 0; i < 10000; i++)
+            {
+                inputAllLines.Add("E 1");
+            }
+
+            _robotService.RunRobotCommands(inputAllLines);
+            var cleanedUniquePlaces = _robotService.GetCleanedUniquePlaces();
+
+            Assert.AreEqual("=> Cleaned: 10001", cleanedUniquePlaces);
         }
     }
 }
