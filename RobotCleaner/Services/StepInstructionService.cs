@@ -10,25 +10,20 @@ namespace RobotCleaner.Services
         {
         }
 
-        public List<StepInstruction> GetStepsInstructionListFromStepInputs(string stepInputOne, string stepInputTwo)
+        public List<StepInstruction> GetStepsInstructionListFromStepInputs(List<string> stepInstructionInputList)
         {
             var response = new List<StepInstruction>();
 
-            var stepInstructionOne = new StepInstruction
+            foreach (var input in stepInstructionInputList)
             {
-                Direction = stepInputOne.Split(' ')[0],
-                StepsCount = int.Parse(stepInputOne.Split(' ')[1])
-            };
+                var newStepInstruction = new StepInstruction
+                {
+                    Direction = input.Split(' ')[0],
+                    StepsCount = int.Parse(input.Split(' ')[1])
+                };
 
-            response.Add(stepInstructionOne);
-
-            var stepInstructionTwo = new StepInstruction
-            {
-                Direction = stepInputTwo.Split(' ')[0],
-                StepsCount = int.Parse(stepInputTwo.Split(' ')[1])
-            };
-
-            response.Add(stepInstructionTwo);
+                response.Add(newStepInstruction);
+            }
 
             return response;
         }

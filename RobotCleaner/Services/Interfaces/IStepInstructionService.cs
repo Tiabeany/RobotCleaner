@@ -5,6 +5,6 @@ namespace RobotCleaner.Services.Interfaces
 {
     public interface IStepInstructionService
     {
-        List<StepInstruction> GetStepsInstructionListFromStepInputs(string stepInputOne, string stepInputTwo);
+        List<StepInstruction> GetStepsInstructionListFromStepInputs(List<string> stepInstructionInputList);
     }
 }

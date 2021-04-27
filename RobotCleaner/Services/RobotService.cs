@@ -29,15 +29,11 @@ namespace RobotCleaner.Services
             // The robot cleans the vertex it starts
             AddPositionIntoUniqueCleanPlacesIfUnique();
 
-            for (int runningCommandIndex = 0; runningCommandIndex < Robot.CommandsToRun; runningCommandIndex++)
+            foreach (var stepInstruction in Robot.StepInstructions)
             {
-                // If the current command index is even then we should get the first instruction (index 0) otherwise get the second instruction (index 1)
-                var stepInstructionToRunIndex = runningCommandIndex % 2 == 0 ? 0 : 1;
-                var stepInstructionToRun = Robot.StepInstructions[stepInstructionToRunIndex];
-
                 var isHorizontalCommand = false;
                 var isPositiveCommand = false;
-                switch (stepInstructionToRun.Direction)
+                switch (stepInstruction.Direction)
                 {
                     case "E":
                         isHorizontalCommand = true;
@@ -61,7 +57,7 @@ namespace RobotCleaner.Services
                 {
                     if (isPositiveCommand)
                     {
-                        for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                        for (int walkingStepIndex = 0; walkingStepIndex < stepInstruction.StepsCount; walkingStepIndex++)
                         {
                             if (isNextPositionValid(Robot.CurrentPosition.X + 1))
                             {
@@ -72,7 +68,7 @@ namespace RobotCleaner.Services
                     }
                     else
                     {
-                        for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                        for (int walkingStepIndex = 0; walkingStepIndex < stepInstruction.StepsCount; walkingStepIndex++)
                         {
                             if (isNextPositionValid(Robot.CurrentPosition.X - 1))
                             {
@@ -88,7 +84,7 @@ namespace RobotCleaner.Services
                     {
                         if (isNextPositionValid(Robot.CurrentPosition.Y + 1))
                         {
-                            for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                            for (int walkingStepIndex = 0; walkingStepIndex < stepInstruction.StepsCount; walkingStepIndex++)
                             {
                                 Robot.CurrentPosition.Y++;
                                 AddPositionIntoUniqueCleanPlacesIfUnique();
@@ -99,7 +95,7 @@ namespace RobotCleaner.Services
                     {
                         if (isNextPositionValid(Robot.CurrentPosition.Y - 1))
                         {
-                            for (int walkingStepIndex = 0; walkingStepIndex < stepInstructionToRun.StepsCount; walkingStepIndex++)
+                            for (int walkingStepIndex = 0; walkingStepIndex < stepInstruction.StepsCount; walkingStepIndex++)
                             {
                                 Robot.CurrentPosition.Y--;
                                 AddPositionIntoUniqueCleanPlacesIfUnique();
@@ -130,20 +126,23 @@ namespace RobotCleaner.Services
 
         private void SetRobot(List<string> inputs)
         {
-            var commandInstructions = int.Parse(inputs[0]);
-
-            var startingPointInstructions = inputs[1];
+            var startingPointInstructions = inputs[0];
             var startingPointHorizontal = int.Parse(startingPointInstructions.Split(' ')[0]);
             var startingPointVertical = int.Parse(startingPointInstructions.Split(' ')[1]);
             var startingPoint = new Coordinate { X = startingPointHorizontal, Y = startingPointVertical };
 
-            var stepInstructionInputOne = inputs[2];
-            var stepInstructionInputTwo = inputs[3];
-            var stepsInstructions = _stepInstructionService.GetStepsInstructionListFromStepInputs(stepInstructionInputOne, stepInstructionInputTwo);
+            var stepsInstructionInputList = new List<string>();
+
+            // This loop starts at i = 1 because i = 0 was already dealt before for the starting point
+            for (int i = 1; i < inputs.Count; i++)
+            {
+                stepsInstructionInputList.Add(inputs[i]);
+            }
+
+            var stepsInstructions = _stepInstructionService.GetStepsInstructionListFromStepInputs(stepsInstructionInputList);
 
             Robot = new Robot
             {
-                CommandsToRun = commandInstructions,
                 CurrentPosition = startingPoint,
                 StartingPoint = startingPoint,
                 StepInstructions = stepsInstructions
