@@ -8,9 +8,9 @@ namespace RobotCleaner.Services
 {
     public class RobotService : IRobotService
     {
-        private Robot Robot { get; set; }
-        private List<Coordinate> _cleanedUniquePlaces { get; set; }        
-        private IStepInstructionService _stepInstructionService { get; set; }
+        private Robot Robot;
+        private List<Coordinate> _cleanedUniquePlaces;
+        private IStepInstructionService _stepInstructionService;
 
         public RobotService(IStepInstructionService stepInstructionService)
         {
@@ -25,6 +25,7 @@ namespace RobotCleaner.Services
 
         public void RunRobotCommands(List<string> inputs)
         {
+            _cleanedUniquePlaces.Clear();
             SetRobot(inputs);
                         
             if (Robot.StepInstructions.Any())
