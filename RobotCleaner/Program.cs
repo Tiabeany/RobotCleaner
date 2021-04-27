@@ -13,11 +13,14 @@ namespace RobotCleaner
         {
             try
             {
-                var commandsCount = int.Parse(Console.ReadLine());
                 var inputList = new List<string>();
+                var commandsCount = int.Parse(Console.ReadLine());                
+                // Starting position
+                inputList.Add(Console.ReadLine());
 
                 for (int i = 0; i < commandsCount; i++)
                 {
+                    // Step Instructions
                     inputList.Add(Console.ReadLine());
                 }
 
