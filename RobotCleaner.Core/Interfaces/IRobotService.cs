@@ -1,7 +1,6 @@
-﻿using RobotCleaner.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace RobotCleaner.Services.Interfaces
+namespace RobotCleaner.Core.Interfaces
 {
     public interface IRobotService
     {

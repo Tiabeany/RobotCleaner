@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RobotCleaner\RobotCleaner.csproj">
-      <Project>{F0B0B6C6-0FEC-426F-8A09-AEA085C7DDEB}</Project>
-      <Name>RobotCleaner</Name>
+    <ProjectReference Include="..\RobotCleaner.Core\RobotCleaner.Core.csproj">
+      <Project>{4a6d5e32-d310-4fde-b647-829cc8e4adda}</Project>
+      <Name>RobotCleaner.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

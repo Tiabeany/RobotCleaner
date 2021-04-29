@@ -1,4 +1,4 @@
-﻿using RobotCleaner.Services;
+﻿using RobotCleaner.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace RobotCleaner
                     inputList.Add(Console.ReadLine());
                 }
 
-                var robotService = new RobotService(new StepInstructionService());
+                var robotService = new RobotService(new CommandService());
                 robotService.RunRobotCommands(inputList);
 
                 var uniquePlaces = robotService.GetCleanedUniquePlaces();

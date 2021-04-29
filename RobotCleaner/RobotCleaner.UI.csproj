@@ -43,19 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Coordinate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\Robot.cs" />
-    <Compile Include="Domain\StepInstruction.cs" />
-    <Compile Include="Services\Interfaces\IRobotService.cs" />
-    <Compile Include="Services\Interfaces\IStepInstructionService.cs" />
-    <Compile Include="Services\RobotService.cs" />
-    <Compile Include="Services\StepInstructionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RobotCleaner.Core\RobotCleaner.Core.csproj">
+      <Project>{4a6d5e32-d310-4fde-b647-829cc8e4adda}</Project>
+      <Name>RobotCleaner.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

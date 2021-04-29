@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RobotCleaner;
-using RobotCleaner.Domain;
-using RobotCleaner.Services;
-using RobotCleaner.Services.Interfaces;
-using System;
+using RobotCleaner.Core.Interfaces;
+using RobotCleaner.Core.Services;
 using System.Collections.Generic;
 
 namespace RobotCleanerTest
@@ -27,8 +24,8 @@ namespace RobotCleanerTest
             _exampleInputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_ONE);
             _exampleInputAllLines.Add(EXAMPLE_INPUT_DIRECTIONAL_STEPS_TWO);
 
-            var stepInstructionService = new StepInstructionService();
-            _robotService = new RobotService(stepInstructionService);
+            var commandService = new CommandService();
+            _robotService = new RobotService(commandService);
         }
 
         [TestMethod]
